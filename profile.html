@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+</head>
+<body>
+    <img src="https://sun9-80.userapi.com/s/v1/if1/lMmk7hcllCHGVtrz1Xp1p2s2fPHmtQd1i9WQ2YvHK-GO6UzaQrUj_mLz4WTUAlGHsSsM1g.jpg?quality=96&as=32x18,48x27,72x40,108x61,160x90,240x135,360x202,480x270,540x304,640x360,720x405,1080x607,1280x720,1440x810,1920x1080&from=bu&u=ldzIouW6Z0Y64I7zbJTbi_2n2mOxH4jXXbwcZptOs8M&cs=604x340" alt="header logo" draggable="false">
+    <nav>
+        <ul class="menu">
+            <li><a href="index.html" class="animen home">ГЛАВНАЯ</a></li>
+            <li><a href="anime.html" class="animen anime">АНИМЕ</a></li>
+            <li><a href="schedule.html" class="animen schedule">РАСПИСАНИЕ</a></li>
+            <li><a href="favourites.html" class="animen favourites">ИЗБРАННОЕ</a></li>
+            <li><a href="profile.html" class="animen profile">ПРОФИЛЬ</a></li>
+            <li><a href="settings.html" class="animen settings">НАСТРОЙКИ</a></li>
+            <li><a href="support.html" class="animen support">ПОДДЕРЖКА</a></li>
+        </ul>
+    </nav>
+
+    <div class="registration-container">
+        <h1>Регистрация</h1>
+        <form class="registration-form">
+            <div class="form-group">
+                <label for="email"></label>
+                <input type="email" id="email" name="email" placeholder="Введите email" required>
+            </div>
+            <div class="form-group">
+                <label for="username"></label>
+                <input type="text" id="username" name="username" placeholder="Введите имя пользователя" required>
+            </div>
+            <div class="form-group">
+                <label for="password"></label>
+                <input type="password" id="password" name="password" placeholder="Введите пароль" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password"></label>
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="Введите пароль повторно" required>
+            </div>
+            <button type="submit" class="submit-button">Зарегистрироваться</button>
+        </form>
+        <p class="login-link">Уже есть аккаунт? <a href="login.html">Войти</a></p>
+    </div>
+
+    <script>
+        document.querySelector('.registration-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.querySelector('#email').value;
+            const username = document.querySelector('#username').value;
+            const password = document.querySelector('#password').value;
+            const confirmPassword = document.querySelector('#confirm-password').value;
+
+            // Проверка совпадения паролей
+            if (password !== confirmPassword) {
+                alert("Пароли не совпадают");
+                return;
+            }
+
+            const response = await fetch('http://localhost:3000/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, username, password })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert("Регистрация успешна!");
+                window.location.href = "login.html"; // Перенаправление на страницу входа
+            } else {
+                alert("Ошибка: " + result.message);
+            }
+        });
+    </script>
+</body>
+</html>
